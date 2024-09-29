@@ -45,7 +45,7 @@ function displayTasks() {
       item.disabled ? "checked" : ""
     }>
       <p id="todo-${index}" class=${
-      item.disabled ? "checked" : ""
+      item.disabled ? "disabled" : ""
     } onClick="editTask(${index})">${item.text}</p>
       </div>
     `;
@@ -54,6 +54,12 @@ function displayTasks() {
     });
     todoList.appendChild(p);
   });
+}
+
+function toggleTask(index) {
+  todo[index].disabled = !todo[index].disabled;
+  saveToLocalStorage();
+  displayTasks();
 }
 
 function saveToLocalStorage() {
