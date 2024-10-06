@@ -14,6 +14,8 @@ function addTodo() {
   if (todoText !== "") {
     const li = document.createElement("li");
     li.textContent = todoText;
+    // fucntion to edit the todo item
+    li.addEventListener("click", editTodo);
     todoList.appendChild(li);
     // function call to update the todo count
     updateTodoCount();
@@ -24,7 +26,7 @@ function addTodo() {
 // Function to update todo count
 
 function updateTodoCount() {
-  const items = todoList.querySelector("li");
+  const items = todoList.querySelectorAll("li");
   todoCount.textContent = items.length;
 }
 
@@ -47,3 +49,31 @@ todoInput.addEventListener("keypress", function (event) {
     addTodo();
   }
 });
+
+// Function to edit the todo list item
+
+function editTodo(event) {
+  const li = event.target;
+  const originalText = li.textContent;
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = originalText;
+  li.textContent = "";
+  li.appendChild(input);
+
+  // editing the todo on clicking Enter or focusing out state
+  input.addEventListener("keypress", function (event) {
+    if (event.key == "Enter") {
+      li.textContent = input.value;
+      li.addEventListener("click", editTodo);
+      updateTodoCount();
+    }
+  });
+
+  input.addEventListener("blur", function () {
+    li.textContent = input.value;
+    li.addEventListener("click", editTodo);
+    updateTodoCount();
+  });
+  input.focus();
+}
